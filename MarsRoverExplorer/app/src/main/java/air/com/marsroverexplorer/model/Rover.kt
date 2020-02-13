@@ -17,7 +17,7 @@ enum class Rover(private var id: Int, private var roverName: String, private var
     }
 
     fun getImageResource() : Int {
-        return image;
+        return image
     }
 
     companion object {
