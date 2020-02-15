@@ -3,6 +3,9 @@ package air.com.marsroverexplorer.ui.roverlist
 import air.com.marsroverexplorer.R
 import air.com.marsroverexplorer.databinding.RoverListViewBinding
 import air.com.marsroverexplorer.ui.roverlist.RoverListAdapter.OnClickRover
+import air.com.marsroverexplorer.util.hide
+import air.com.marsroverexplorer.util.show
+import air.com.marsroverexplorer.util.snackbar
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -11,7 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.rover_list_view.*
 
-class RoverListActivity : AppCompatActivity(), OnClickRover {
+class RoverListActivity : AppCompatActivity(), OnClickRover, OnRoverListener {
 
     private lateinit var viewModel: RoverListViewModel
 
@@ -22,6 +25,8 @@ class RoverListActivity : AppCompatActivity(), OnClickRover {
         viewModel = ViewModelProviders.of(this).get(RoverListViewModel::class.java)
 
         binding.viewmodel = viewModel
+
+        viewModel.listener = this
 
         viewModel.loadRovers()
 
@@ -36,5 +41,18 @@ class RoverListActivity : AppCompatActivity(), OnClickRover {
 
     override fun onClickRover(rover: String) {
         viewModel.onClickRover(rover)
+    }
+
+    override fun onStartLoadManifest() {
+        pbLoading.show()
+    }
+
+    override fun onFinishLoadManifest() {
+        pbLoading.hide()
+    }
+
+    override fun onErrorLoadManifest(errorMessage: String) {
+        pbLoading.hide()
+        rootLayout.snackbar(errorMessage)
     }
 }

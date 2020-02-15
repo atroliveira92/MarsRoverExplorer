@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -20,7 +21,7 @@ interface MarsAPI {
     fun listPhotosFromRover(@Path("rover") rover : String) : Call<ResponseBody>
 
     @GET("manifests/{rover}?&api_key=pkzzx9DLUejnkWlxoydv4aexzJhUFbMFHylBuy7p")
-    fun getRoverManifest(@Path("rover") rover : String) : Call<PhotoManifestResponse>
+    suspend fun getRoverManifest(@Path("rover") rover : String) : Response<PhotoManifestResponse>
 
     companion object {
         operator fun invoke() : MarsAPI {

@@ -2,8 +2,7 @@ package air.com.marsroverexplorer.ui.roverdetail
 
 import air.com.marsroverexplorer.model.Rover
 import air.com.marsroverexplorer.model.Rover.*
-import air.com.marsroverexplorer.repository.RoverRepository
-import androidx.lifecycle.LiveData
+import air.com.marsroverexplorer.data.repository.RoverRepository
 import androidx.lifecycle.ViewModel
 
 class RoverViewModel : ViewModel(){

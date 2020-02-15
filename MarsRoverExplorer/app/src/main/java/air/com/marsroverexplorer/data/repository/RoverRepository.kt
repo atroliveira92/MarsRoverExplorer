@@ -1,8 +1,8 @@
-package air.com.marsroverexplorer.repository
+package air.com.marsroverexplorer.data.repository
 
 import air.com.marsroverexplorer.data.network.MarsAPI
+import air.com.marsroverexplorer.data.network.SafeApiRequest
 import air.com.marsroverexplorer.model.Photo
-import air.com.marsroverexplorer.model.manifest.PhotoManifest
 import air.com.marsroverexplorer.model.manifest.PhotoManifestResponse
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -14,7 +14,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RoverRepository {
+class RoverRepository : SafeApiRequest() {
 
     val TAG = "REQUEST"
 
@@ -46,27 +46,8 @@ class RoverRepository {
         return roverResponse
     }
 
-    fun loadRoverManifest(rover: String) : LiveData<PhotoManifest> {
+    suspend fun loadRoverManifest(rover: String) : PhotoManifestResponse {
 
-        val roverManifestResponse = MutableLiveData<PhotoManifest>()
-
-        MarsAPI().getRoverManifest(rover.toLowerCase()).enqueue(object: Callback<PhotoManifestResponse?> {
-            override fun onFailure(call: Call<PhotoManifestResponse?>, t: Throwable) {
-                t.printStackTrace()
-                roverManifestResponse.value = null
-            }
-
-            override fun onResponse(call: Call<PhotoManifestResponse?>, response: Response<PhotoManifestResponse?>) {
-                if (response.isSuccessful && response.body() != null) {
-                    val responseManifest = response.body()
-                    roverManifestResponse.value = responseManifest?.photoManifest
-                } else {
-                    roverManifestResponse.value = null
-                }
-            }
-
-        })
-
-        return roverManifestResponse
+        return apiRequest {  MarsAPI().getRoverManifest(rover) }
     }
 }
