@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class RoverListViewModel : ViewModel() {
+class RoverListViewModel(private val repository: RoverRepository) : ViewModel() {
 
     private val mutableRovers = MutableLiveData<List<Rover>>()
     val rovers : LiveData<List<Rover>> get() = mutableRovers
@@ -25,7 +25,7 @@ class RoverListViewModel : ViewModel() {
 
         Coroutines.main {
             try {
-                val response = RoverRepository().loadRoverManifest(rover)
+                val response = repository.loadRoverManifest(rover)
                 listener?.onFinishLoadManifest()
 
             } catch (e : ApiException) {

@@ -14,7 +14,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RoverRepository : SafeApiRequest() {
+class RoverRepository(private val api: MarsAPI) : SafeApiRequest() {
 
     val TAG = "REQUEST"
 
@@ -22,7 +22,7 @@ class RoverRepository : SafeApiRequest() {
 
         val roverResponse = MutableLiveData<List<Photo>>()
 
-        MarsAPI().listPhotosFromRover(rover.toLowerCase()).enqueue(object: Callback<ResponseBody?> {
+        api.listPhotosFromRover(rover.toLowerCase()).enqueue(object: Callback<ResponseBody?> {
             override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) =
                 if (response.isSuccessful && response.body() != null) {
 
@@ -48,6 +48,6 @@ class RoverRepository : SafeApiRequest() {
 
     suspend fun loadRoverManifest(rover: String) : PhotoManifestResponse {
 
-        return apiRequest {  MarsAPI().getRoverManifest(rover) }
+        return apiRequest {  api.getRoverManifest(rover) }
     }
 }

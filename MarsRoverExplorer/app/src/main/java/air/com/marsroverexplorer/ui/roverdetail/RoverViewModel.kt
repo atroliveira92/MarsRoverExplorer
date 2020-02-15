@@ -1,5 +1,6 @@
 package air.com.marsroverexplorer.ui.roverdetail
 
+import air.com.marsroverexplorer.data.network.MarsAPI
 import air.com.marsroverexplorer.model.Rover
 import air.com.marsroverexplorer.model.Rover.*
 import air.com.marsroverexplorer.data.repository.RoverRepository
@@ -24,7 +25,7 @@ class RoverViewModel : ViewModel(){
 
         listener?.onStartLoading()
 
-        val roverResponse = RoverRepository().loadRoverPhotos(rover.getName())
+        val roverResponse = RoverRepository(MarsAPI()).loadRoverPhotos(rover.getName())
 
     }
 }

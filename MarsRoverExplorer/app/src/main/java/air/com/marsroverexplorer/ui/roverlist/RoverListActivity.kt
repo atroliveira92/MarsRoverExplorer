@@ -13,8 +13,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.rover_list_view.*
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.kodein
+import org.kodein.di.generic.instance
 
-class RoverListActivity : AppCompatActivity(), OnClickRover, OnRoverListener {
+class RoverListActivity : AppCompatActivity(), KodeinAware, OnClickRover, OnRoverListener {
+
+    override val kodein by kodein()
+    private val factory: RoverListViewModelFactory by instance()
 
     private lateinit var viewModel: RoverListViewModel
 
@@ -22,7 +28,7 @@ class RoverListActivity : AppCompatActivity(), OnClickRover, OnRoverListener {
         super.onCreate(savedInstanceState)
 
         val binding : RoverListViewBinding = DataBindingUtil.setContentView(this, R.layout.rover_list_view)
-        viewModel = ViewModelProviders.of(this).get(RoverListViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, factory).get(RoverListViewModel::class.java)
 
         binding.viewmodel = viewModel
 
