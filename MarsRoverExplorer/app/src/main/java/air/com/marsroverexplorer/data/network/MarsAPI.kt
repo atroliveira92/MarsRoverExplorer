@@ -24,12 +24,13 @@ interface MarsAPI {
     suspend fun getRoverManifest(@Path("rover") rover : String) : Response<PhotoManifestResponse>
 
     companion object {
-        operator fun invoke() : MarsAPI {
+        operator fun invoke(netWorkConnectionInterceptor: NetWorkConnectionInterceptor) : MarsAPI {
             val logging = HttpLoggingInterceptor()
             logging.level = HttpLoggingInterceptor.Level.BODY
 
             val httpClient = OkHttpClient.Builder()
             httpClient.addInterceptor(logging)
+                      .addInterceptor(netWorkConnectionInterceptor)
 
             val gson = GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)

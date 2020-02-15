@@ -2,5 +2,6 @@
     <string name="app_name">Mars Rover Explorer</string>
     <string name="curiosity">Curiosity</string>
     <string name="opportunity">Opportunity</string>
-    <string name="spirity">Spirity</string>
+    <string name="spirit">Spirit</string>
+    <string name="no_internet_connection_message">Make sure you have active data connection</string>
 </resources>

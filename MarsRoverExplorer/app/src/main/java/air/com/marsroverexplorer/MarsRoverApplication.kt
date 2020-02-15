@@ -1,6 +1,7 @@
 package air.com.marsroverexplorer
 
 import air.com.marsroverexplorer.data.network.MarsAPI
+import air.com.marsroverexplorer.data.network.NetWorkConnectionInterceptor
 import air.com.marsroverexplorer.data.repository.RoverRepository
 import air.com.marsroverexplorer.ui.roverlist.RoverListViewModelFactory
 import android.app.Application
@@ -18,7 +19,8 @@ class MarsRoverApplication : Application(), KodeinAware {
 
         import(androidXModule(this@MarsRoverApplication))
 
-        bind() from singleton { MarsAPI() }
+        bind() from singleton { NetWorkConnectionInterceptor(instance())}
+        bind() from singleton { MarsAPI(instance()) }
         bind() from singleton { RoverRepository(instance()) }
         bind() from provider { RoverListViewModelFactory(instance()) }
     }

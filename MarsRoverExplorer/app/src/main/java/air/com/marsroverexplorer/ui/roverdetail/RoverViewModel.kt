@@ -25,7 +25,7 @@ class RoverViewModel : ViewModel(){
 
         listener?.onStartLoading()
 
-        val roverResponse = RoverRepository(MarsAPI()).loadRoverPhotos(rover.getName())
+        //val roverResponse = RoverRepository(MarsAPI()).loadRoverPhotos(rover.getName())
 
     }
 }
