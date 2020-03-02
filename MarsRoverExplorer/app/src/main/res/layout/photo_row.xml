@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ImageView
+            android:contentDescription="@null"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imgvPhoto"
+            android:scaleType="centerCrop"
+            android:background="@color/photo_background"/>
+
+    <FrameLayout
+            android:visibility="gone"
+            android:id="@+id/frlMorePhotos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:alpha="0.5"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            tools:text="+29"
+            android:textSize="14sp"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+</FrameLayout>

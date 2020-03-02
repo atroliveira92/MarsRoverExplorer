@@ -7,23 +7,30 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import air.com.marsroverexplorer.databinding.RoverDetailViewBinding
-import air.com.marsroverexplorer.model.Rover
-import air.com.marsroverexplorer.util.hide
-import air.com.marsroverexplorer.util.show
+import air.com.marsroverexplorer.model.manifest.PhotoManifest
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.android.synthetic.main.rover_detail_view.*
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.kodein
+import org.kodein.di.generic.instance
 
-class RoverDetailActivity : AppCompatActivity(), RoverDetailListener {
+class RoverDetailActivity : AppCompatActivity(), KodeinAware, RoverDetailListener {
+
+    override val kodein by kodein()
+    private val factory: RoverViewModelFactory by instance()
 
     companion object {
-        val ROVER_PARM = "rover_param"
-        fun startActivity(context: Context, rover: Rover) {
+        const val PHOTO_MANIFEST = "photo_manifest"
+        const val BUNDLE = "BUNDLE"
+
+        fun startActivity(context: Context, photoManifest: PhotoManifest) {
             val intent = Intent(context, RoverDetailActivity::class.java)
-            intent.putExtra(ROVER_PARM, rover.getId())
+            val bundle = Bundle()
+            bundle.putParcelable(PHOTO_MANIFEST, photoManifest)
+            intent.putExtra(BUNDLE, bundle)
 
             context.startActivity(intent)
         }
@@ -33,31 +40,31 @@ class RoverDetailActivity : AppCompatActivity(), RoverDetailListener {
         super.onCreate(savedInstanceState)
 
         val binding : RoverDetailViewBinding = DataBindingUtil.setContentView(this, R.layout.rover_detail_view)
-        val viewModel = ViewModelProviders.of(this).get(RoverViewModel::class.java)
+        val viewModel = ViewModelProviders.of(this, factory).get(RoverViewModel::class.java)
 
         binding.viewmodel = viewModel
 
         viewModel.listener = this
 
-        val rover = intent.getIntExtra(ROVER_PARM, Rover.CURIOSITY.getId())
+        val bundle = intent.getBundleExtra(BUNDLE)
+        val photoManifest = bundle?.getParcelable<PhotoManifest>(PHOTO_MANIFEST)
 
-        viewModel.onLoadRoverDetail(Rover.getFromId(rover))
-
+        viewModel.onInit(photoManifest!!)
     }
 
     override fun onStartLoading() {
-        pbRover.show()
+        //pbRover.show()
     }
 
     override fun onError(error: String) {
-        pbRover.hide()
+        //pbRover.hide()
         toast(error)
     }
 
     override fun onSuccess(roverResponse: LiveData<String>) {
         roverResponse.observe(this, Observer {
-            pbRover.hide()
-            txvResponse.text = it
+            //pbRover.hide()
+            //txvResponse.text = it
         })
     }
 }

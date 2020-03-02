@@ -10,34 +10,87 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
+            android:background="@color/colorPrimary"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
         <TextView
-                android:text="@={viewmodel.roverTitle}"
+                android:text="@={viewmodel.photoManifest.name}"
                 android:layout_width="wrap_content"
+                android:textColor="@android:color/white"
+                tools:text="Curiosity"
+                android:textSize="24sp"
                 android:layout_height="0dp" android:id="@+id/textView"
-                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"
                 app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="40dp"/>
-        <TextView
-                android:text="@={viewmodel.response}"
+
+        <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/txvResponse" app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="153dp" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="175dp" app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="177dp"/>
-        <ProgressBar
-                style="?android:attr/progressBarStyle"
-                android:layout_width="0dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="24dp"
+                android:id="@+id/linearLayout"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{viewmodel::openDateFilterClick}">
+
+            <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:text="@string/earth"/>
+
+            <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:text="@={viewmodel.earthDate}"
+                    tools:text="2020-10-29"/>
+            <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:text="|"/>
+            <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:text="@string/sol"/>
+
+            <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:text="@={viewmodel.solDate}"
+                    tools:text="1092"/>
+
+            <ImageView
+                    android:contentDescription="@null"
+                    android:layout_marginStart="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_date_range_black_24dp"/>
+
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:id="@+id/pbRover" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="181dp" app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="341dp" app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="342dp" app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="182dp" android:visibility="gone"/>
+                tools:layout_editor_absoluteX="8dp" android:layout_marginTop="32dp"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" android:id="@+id/rvRoverGallery"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

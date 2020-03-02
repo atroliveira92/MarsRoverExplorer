@@ -1,6 +1,7 @@
 package air.com.marsroverexplorer.data.network
 
 import air.com.marsroverexplorer.model.manifest.PhotoManifestResponse
+import air.com.marsroverexplorer.model.photo.Photos
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -12,13 +13,14 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 
 interface MarsAPI {
 
 
-    @GET("rovers/{rover}/photos?sol=1000&api_key=pkzzx9DLUejnkWlxoydv4aexzJhUFbMFHylBuy7p")
-    fun listPhotosFromRover(@Path("rover") rover : String) : Call<ResponseBody>
+    @GET("rovers/{rover}/photos?api_key=pkzzx9DLUejnkWlxoydv4aexzJhUFbMFHylBuy7p")
+    suspend fun listPhotosFromRover(@Path("rover") rover : String, @Query("earth_date") earthDate: String) : Response<Photos>
 
     @GET("manifests/{rover}?&api_key=pkzzx9DLUejnkWlxoydv4aexzJhUFbMFHylBuy7p")
     suspend fun getRoverManifest(@Path("rover") rover : String) : Response<PhotoManifestResponse>

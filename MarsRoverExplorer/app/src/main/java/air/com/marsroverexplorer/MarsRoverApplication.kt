@@ -3,6 +3,7 @@ package air.com.marsroverexplorer
 import air.com.marsroverexplorer.data.network.MarsAPI
 import air.com.marsroverexplorer.data.network.NetWorkConnectionInterceptor
 import air.com.marsroverexplorer.data.repository.RoverRepository
+import air.com.marsroverexplorer.ui.roverdetail.RoverViewModelFactory
 import air.com.marsroverexplorer.ui.roverlist.RoverListViewModelFactory
 import android.app.Application
 import org.kodein.di.Kodein
@@ -23,5 +24,6 @@ class MarsRoverApplication : Application(), KodeinAware {
         bind() from singleton { MarsAPI(instance()) }
         bind() from singleton { RoverRepository(instance()) }
         bind() from provider { RoverListViewModelFactory(instance()) }
+        bind() from provider { RoverViewModelFactory(instance()) }
     }
 }

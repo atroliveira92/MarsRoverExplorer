@@ -46,7 +46,7 @@ class RoverListActivity : AppCompatActivity(), KodeinAware, OnClickRover, OnRove
     }
 
     override fun onClickRover(rover: String) {
-        viewModel.onClickRover(rover)
+        viewModel.onClickRover(rover, this)
     }
 
     override fun onStartLoadManifest() {

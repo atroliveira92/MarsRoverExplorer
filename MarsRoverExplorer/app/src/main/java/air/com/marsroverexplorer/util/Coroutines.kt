@@ -9,4 +9,8 @@ object Coroutines {
             CoroutineScope(Dispatchers.Main).launch {
                 work()
             }
+
+    fun default(work: suspend(() ->Unit)) = CoroutineScope(Dispatchers.Default).launch {
+        work()
+    }
 }

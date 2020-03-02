@@ -4,4 +4,6 @@
     <string name="opportunity">Opportunity</string>
     <string name="spirit">Spirit</string>
     <string name="no_internet_connection_message">Make sure you have active data connection</string>
+    <string name="earth">earth:</string>
+    <string name="sol">sol:</string>
 </resources>

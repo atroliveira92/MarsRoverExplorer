@@ -1,4 +1,6 @@
-package air.com.marsroverexplorer.model
+package air.com.marsroverexplorer.model.photo
+
+import air.com.marsroverexplorer.model.photo.Camera
 
 data class Photo (
     val id: String,
