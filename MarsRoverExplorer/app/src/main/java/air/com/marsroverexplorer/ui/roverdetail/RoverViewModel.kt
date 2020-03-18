@@ -6,8 +6,11 @@ import air.com.marsroverexplorer.model.photo.Photo
 import air.com.marsroverexplorer.util.ApiException
 import air.com.marsroverexplorer.util.Coroutines
 import air.com.marsroverexplorer.util.NoInternetException
-import android.view.View
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import java.lang.Math.min
 
 class RoverViewModel(private val repository: RoverRepository) : ViewModel(){
 
@@ -17,17 +20,17 @@ class RoverViewModel(private val repository: RoverRepository) : ViewModel(){
 
     var listener : RoverDetailListener? = null
 
-    lateinit var cameraPhotos: MutableList<CameraPhotoViewModel>
+    var map: Map<String, List<Photo>>? = null
+
+    private val mutableCameraPhotos = MutableLiveData<List<CameraPhotoViewModel>>()
+    val listCameraPhotos : LiveData<List<CameraPhotoViewModel>> get() = mutableCameraPhotos
 
     fun onInit(photoManifest: PhotoManifest) {
         this.photoManifest = photoManifest
         this.solDate = photoManifest.maxSol.toString()
 
-        loadPhotoByEarthDate(photoManifest.maxDate!!)
-    }
-
-    fun openDateFilterClick(view: View) {
-
+        loadPhotoByEarthDate(photoManifest.photos[2].earthDate!!)
+        //loadPhotoByEarthDate(photoManifest.maxDate!!)
     }
 
     private fun loadPhotoByEarthDate(earthDate: String) {
@@ -36,8 +39,7 @@ class RoverViewModel(private val repository: RoverRepository) : ViewModel(){
         Coroutines.main {
             try {
                 val response = repository.loadRoverPhotos(photoManifest?.name!!, earthDate)
-                cameraPhotos = ArrayList()
-                buildCameraPhotosList(response.photo)
+                buildCameraPhotosList(response.photos)
 
             } catch (e: ApiException) {
                 e.printStackTrace()
@@ -50,21 +52,20 @@ class RoverViewModel(private val repository: RoverRepository) : ViewModel(){
     }
 
     private fun buildCameraPhotosList(photos: List<Photo>) {
-        Coroutines.default{
-            var camera: String? = null
-            var photoList: MutableList<String> = ArrayList()
+        val cameraViewModels = ArrayList<CameraPhotoViewModel>()
 
-            for (photo in photos) {
-                if (camera == null || camera == photo.camera.full_name) {
-                    camera = photo.camera.full_name
-                    photoList.add(photo.img_src)
-                } else {
-                    cameraPhotos.add(CameraPhotoViewModel(camera, photoList))
-                    camera = photo.camera.full_name
-                    photoList = ArrayList()
-                    photoList.add(photo.img_src)
-                }
+        map = photos.groupBy{it.camera.full_name}
+        map?.let {it ->
+            it.forEach {
+                val viewModel = CameraPhotoViewModel(it.key)
+                val limit = min(8, it.value.size)
+                viewModel.imagesUrl = it.value.subList(0, limit).map { x -> x.img_src }
+                viewModel.remainingPhotoCount = it.value.size - limit
+
+                cameraViewModels.add(viewModel)
             }
         }
+
+        mutableCameraPhotos.value = cameraViewModels
     }
 }

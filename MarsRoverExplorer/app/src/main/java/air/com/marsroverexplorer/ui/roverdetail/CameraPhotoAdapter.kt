@@ -6,6 +6,7 @@ import air.com.marsroverexplorer.ui.roverdetail.CameraPhotoAdapter.CameraPhotoVi
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class CameraPhotoAdapter(var cameraPhotos: List<CameraPhotoViewModel>): RecyclerView.Adapter<CameraPhotoViewHolder>() {
@@ -22,6 +23,14 @@ class CameraPhotoAdapter(var cameraPhotos: List<CameraPhotoViewModel>): Recycler
 
     override fun onBindViewHolder(holder: CameraPhotoViewHolder, position: Int) {
         holder.cameraRowBinding.viewModel = cameraPhotos[position]
+
+        val cameraPhoto = cameraPhotos[position]
+
+        holder.cameraRowBinding.rvPhotos.also {
+            it.layoutManager = GridLayoutManager(it.context, 4)
+            it.hasFixedSize()
+            it.adapter = PhotoAdapter(cameraPhoto)
+        }
     }
 
     inner class CameraPhotoViewHolder(var cameraRowBinding: CameraRowBinding): RecyclerView.ViewHolder(cameraRowBinding.root)

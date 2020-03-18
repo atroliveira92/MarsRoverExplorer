@@ -1,6 +1,7 @@
 package air.com.marsroverexplorer.ui.roverdetail
 
 data class CameraPhotoViewModel (
-    val cameraName: String,
-    val photos: List<String>
+    var cameraName: String,
+    var imagesUrl: List<String> = ArrayList(),
+    var remainingPhotoCount: Int = 0
 )

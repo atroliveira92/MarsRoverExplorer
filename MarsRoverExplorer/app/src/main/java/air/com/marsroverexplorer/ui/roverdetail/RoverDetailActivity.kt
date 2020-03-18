@@ -13,6 +13,8 @@ import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.rover_detail_view.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
@@ -50,6 +52,14 @@ class RoverDetailActivity : AppCompatActivity(), KodeinAware, RoverDetailListene
         val photoManifest = bundle?.getParcelable<PhotoManifest>(PHOTO_MANIFEST)
 
         viewModel.onInit(photoManifest!!)
+
+        viewModel.listCameraPhotos.observe(this, Observer { camera ->
+            rvRoverGallery.also {
+                it.layoutManager = LinearLayoutManager(this)
+                it.setHasFixedSize(true)
+                it.adapter = CameraPhotoAdapter(camera)
+            }
+        })
     }
 
     override fun onStartLoading() {
