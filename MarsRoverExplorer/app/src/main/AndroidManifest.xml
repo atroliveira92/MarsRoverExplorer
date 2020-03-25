@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.roverdetail.RoverDetailActivity"/>
+        <activity android:name=".ui.roverdetail.cameragallery.CameraGalleryActivity"/>
     </application>
 
 </manifest>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="photo" type="air.com.marsroverexplorer.model.photo.Photo"/>
+    </data>
+    <FrameLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="2dp">
+
+        <ImageView
+                app:loadThumb="@{photo.img_src}"
+                android:contentDescription="@null"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/imgvPhoto"
+                android:scaleType="centerCrop"
+                android:background="@color/photo_background"/>
+
+    </FrameLayout>
+</layout>

@@ -3,9 +3,12 @@ package air.com.marsroverexplorer.ui.roverdetail
 import air.com.marsroverexplorer.data.repository.RoverRepository
 import air.com.marsroverexplorer.model.manifest.PhotoManifest
 import air.com.marsroverexplorer.model.photo.Photo
+import air.com.marsroverexplorer.ui.roverdetail.cameragallery.CameraGalleryActivity
 import air.com.marsroverexplorer.util.ApiException
 import air.com.marsroverexplorer.util.Coroutines
 import air.com.marsroverexplorer.util.NoInternetException
+import android.content.Context
+import android.view.View
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -33,6 +36,10 @@ class RoverViewModel(private val repository: RoverRepository) : ViewModel(){
         //loadPhotoByEarthDate(photoManifest.maxDate!!)
     }
 
+    fun openDateFilterClick(view: View) {
+
+    }
+
     private fun loadPhotoByEarthDate(earthDate: String) {
         this.earthDate = earthDate
 
@@ -52,20 +59,43 @@ class RoverViewModel(private val repository: RoverRepository) : ViewModel(){
     }
 
     private fun buildCameraPhotosList(photos: List<Photo>) {
-        val cameraViewModels = ArrayList<CameraPhotoViewModel>()
+        Coroutines.default {
+            val cameraViewModels = ArrayList<CameraPhotoViewModel>()
+            map = photos.groupBy{ it.camera.full_name!! }
+            map?.let {it ->
+                it.forEach {
+                    val viewModel = CameraPhotoViewModel(it.key)
+                    val limit = min(8, it.value.size)
+                    viewModel.imagesUrl = it.value.subList(0, limit).map { x -> x.img_src!! }
+                    viewModel.remainingPhotoCount = it.value.size - limit
 
-        map = photos.groupBy{it.camera.full_name}
-        map?.let {it ->
-            it.forEach {
-                val viewModel = CameraPhotoViewModel(it.key)
-                val limit = min(8, it.value.size)
-                viewModel.imagesUrl = it.value.subList(0, limit).map { x -> x.img_src }
-                viewModel.remainingPhotoCount = it.value.size - limit
-
-                cameraViewModels.add(viewModel)
+                    cameraViewModels.add(viewModel)
+                }
             }
+
+            bindMainThreadList(cameraViewModels)
+        }
+    }
+
+    private fun bindMainThreadList(cameraViewModels: ArrayList<CameraPhotoViewModel>) {
+        Coroutines.main {
+            mutableCameraPhotos.value = cameraViewModels
+        }
+    }
+
+    fun onClickPhoto(cameraPhotoViewModel: CameraPhotoViewModel, context: Context) {
+
+    }
+
+    fun onClickOnMorePhotos(cameraPhotoViewModel: CameraPhotoViewModel, context: Context) {
+        val photos = this.map?.get(cameraPhotoViewModel.cameraName)
+        var roverName = "Rover"
+        if (photoManifest != null && !photoManifest!!.name.isNullOrEmpty()) {
+            roverName = photoManifest?.name.toString()
         }
 
-        mutableCameraPhotos.value = cameraViewModels
+        if (photos != null) {
+            CameraGalleryActivity.startActivity(context, roverName, cameraPhotoViewModel.cameraName, earthDate!!, solDate!!, photos as ArrayList<Photo>);
+        }
     }
 }

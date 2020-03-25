@@ -3,13 +3,14 @@ package air.com.marsroverexplorer.ui.roverdetail
 import air.com.marsroverexplorer.R
 import air.com.marsroverexplorer.databinding.CameraRowBinding
 import air.com.marsroverexplorer.ui.roverdetail.CameraPhotoAdapter.CameraPhotoViewHolder
+import air.com.marsroverexplorer.ui.roverdetail.PhotoAdapter.OnClickPhoto
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class CameraPhotoAdapter(var cameraPhotos: List<CameraPhotoViewModel>): RecyclerView.Adapter<CameraPhotoViewHolder>() {
+class CameraPhotoAdapter(var cameraPhotos: List<CameraPhotoViewModel>, var listener: OnClickPhoto): RecyclerView.Adapter<CameraPhotoViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CameraPhotoViewHolder {
         return CameraPhotoViewHolder(
@@ -29,7 +30,7 @@ class CameraPhotoAdapter(var cameraPhotos: List<CameraPhotoViewModel>): Recycler
         holder.cameraRowBinding.rvPhotos.also {
             it.layoutManager = GridLayoutManager(it.context, 4)
             it.hasFixedSize()
-            it.adapter = PhotoAdapter(cameraPhoto)
+            it.adapter = PhotoAdapter(cameraPhoto, listener)
         }
     }
 
