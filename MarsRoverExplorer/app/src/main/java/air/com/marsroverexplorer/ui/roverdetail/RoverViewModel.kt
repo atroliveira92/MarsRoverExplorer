@@ -4,6 +4,7 @@ import air.com.marsroverexplorer.data.repository.RoverRepository
 import air.com.marsroverexplorer.model.manifest.PhotoManifest
 import air.com.marsroverexplorer.model.photo.Photo
 import air.com.marsroverexplorer.ui.roverdetail.cameragallery.CameraGalleryActivity
+import air.com.marsroverexplorer.ui.roverdetail.photo.PhotoActivity
 import air.com.marsroverexplorer.util.ApiException
 import air.com.marsroverexplorer.util.Coroutines
 import air.com.marsroverexplorer.util.NoInternetException
@@ -83,8 +84,8 @@ class RoverViewModel(private val repository: RoverRepository) : ViewModel(){
         }
     }
 
-    fun onClickPhoto(cameraPhotoViewModel: CameraPhotoViewModel, context: Context) {
-
+    fun onClickPhoto(url: String, context: Context) {
+        PhotoActivity.startActivity(context, url)
     }
 
     fun onClickOnMorePhotos(cameraPhotoViewModel: CameraPhotoViewModel, context: Context) {

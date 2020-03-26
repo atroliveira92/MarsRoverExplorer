@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".ui.roverdetail.RoverDetailActivity"/>
         <activity android:name=".ui.roverdetail.cameragallery.CameraGalleryActivity"/>
+        <activity android:name=".ui.roverdetail.photo.PhotoActivity"/>
     </application>
 
 </manifest>

@@ -16,3 +16,9 @@ fun loadThumb(view: ImageView, url: String?) {
         .centerCrop()
         .into(view)
 }
+
+@BindingAdapter("loadPhoto")
+fun loadPhoto(view: ImageView, url: String) {
+    Picasso.get().load(url)
+        .into(view)
+}

@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 
-class CameraPhotoAdapter(val photos: List<Photo>): RecyclerView.Adapter<CameraPhotoAdapter.CameraPhotoViewHolder>() {
-
-    inner class CameraPhotoViewHolder(val cameraPhotoBinding: CameraPhotoRowBinding): RecyclerView.ViewHolder(cameraPhotoBinding.root)
+class CameraPhotoAdapter(val photos: List<Photo>, val listener: OnCameraPhotoAdapter): RecyclerView.Adapter<CameraPhotoAdapter.CameraPhotoViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CameraPhotoViewHolder {
         return CameraPhotoViewHolder(
@@ -24,5 +22,15 @@ class CameraPhotoAdapter(val photos: List<Photo>): RecyclerView.Adapter<CameraPh
 
     override fun onBindViewHolder(holder: CameraPhotoViewHolder, position: Int) {
         holder.cameraPhotoBinding.photo = photos[position]
+
+        holder.cameraPhotoBinding.imgvPhoto.setOnClickListener {
+            listener.onClickOnPhoto(photos[position].img_src)
+        }
+    }
+
+    inner class CameraPhotoViewHolder(val cameraPhotoBinding: CameraPhotoRowBinding): RecyclerView.ViewHolder(cameraPhotoBinding.root)
+
+    interface OnCameraPhotoAdapter {
+        fun onClickOnPhoto(url: String?)
     }
 }

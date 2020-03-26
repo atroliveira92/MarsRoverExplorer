@@ -11,7 +11,7 @@ import air.com.marsroverexplorer.model.manifest.PhotoManifest
 import air.com.marsroverexplorer.ui.roverdetail.PhotoAdapter.OnClickPhoto
 import android.content.Context
 import android.content.Intent
-import android.widget.Toast
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -81,8 +81,8 @@ class RoverDetailActivity : AppCompatActivity(), KodeinAware, RoverDetailListene
         })
     }
 
-    override fun onClickOnPhoto(cameraPhotoViewModel: CameraPhotoViewModel) {
-        toast("Clicou na foto")
+    override fun onClickOnPhoto(url: String) {
+        viewModel.onClickPhoto(url, this)
     }
 
     override fun onClickMorePhotos(cameraPhotoViewModel: CameraPhotoViewModel) {

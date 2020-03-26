@@ -3,6 +3,7 @@ package air.com.marsroverexplorer.ui.roverdetail.cameragallery
 import air.com.marsroverexplorer.R
 import air.com.marsroverexplorer.databinding.PhotoListViewBinding
 import air.com.marsroverexplorer.model.photo.Photo
+import air.com.marsroverexplorer.ui.roverdetail.cameragallery.CameraPhotoAdapter.*
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -13,7 +14,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.photo_list_view.*
 
-class CameraGalleryActivity: AppCompatActivity() {
+class CameraGalleryActivity: AppCompatActivity(), OnCameraPhotoAdapter {
+
+    private lateinit var viewModel: CameraGalleryViewModel
 
     companion object {
         private const val CAMERA_NAME_PARAM = "camera_photo_param"
@@ -45,7 +48,7 @@ class CameraGalleryActivity: AppCompatActivity() {
         val photos = intent.getParcelableArrayListExtra<Photo>(LIST_PHOTO_PARAM)
 
         val factory = CameraGalleryViewModelFactory(roverName!!, cameraName!!, earthDate!!, solDate!!, photos!!)
-        val viewModel = ViewModelProviders.of(this, factory).get(CameraGalleryViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, factory).get(CameraGalleryViewModel::class.java)
 
         binding.viewmodel = viewModel
 
@@ -53,9 +56,13 @@ class CameraGalleryActivity: AppCompatActivity() {
             rvCameraGallery.also {
                 it.setHasFixedSize(true)
                 it.layoutManager = GridLayoutManager(this, 4)
-                it.adapter = CameraPhotoAdapter(photosCamera)
+                it.adapter = CameraPhotoAdapter(photosCamera, this)
             }
         })
 
+    }
+
+    override fun onClickOnPhoto(url: String?) {
+        viewModel.onClickPhoto(url, this)
     }
 }

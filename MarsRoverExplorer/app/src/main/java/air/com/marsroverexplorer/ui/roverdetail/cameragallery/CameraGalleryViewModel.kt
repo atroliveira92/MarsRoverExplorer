@@ -1,6 +1,8 @@
 package air.com.marsroverexplorer.ui.roverdetail.cameragallery
 
 import air.com.marsroverexplorer.model.photo.Photo
+import air.com.marsroverexplorer.ui.roverdetail.photo.PhotoActivity
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,5 +14,11 @@ class CameraGalleryViewModel(var marsRoverName: String, var cameraName: String, 
 
     init {
         mutableCameraPhotos.value = photos
+    }
+
+    fun onClickPhoto(url: String?, context: Context) {
+        if (!url.isNullOrEmpty()) {
+            PhotoActivity.startActivity(context, url)
+        }
     }
 }
