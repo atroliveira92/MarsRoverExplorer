@@ -81,8 +81,8 @@ class RoverDetailActivity : AppCompatActivity(), KodeinAware, RoverDetailListene
         })
     }
 
-    override fun onClickOnPhoto(url: String) {
-        viewModel.onClickPhoto(url, this)
+    override fun onClickOnPhoto(position: Int, cameraPhotoViewModel: CameraPhotoViewModel) {
+        viewModel.onClickPhoto(position, cameraPhotoViewModel, this)
     }
 
     override fun onClickMorePhotos(cameraPhotoViewModel: CameraPhotoViewModel) {

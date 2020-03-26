@@ -62,7 +62,7 @@ class CameraGalleryActivity: AppCompatActivity(), OnCameraPhotoAdapter {
 
     }
 
-    override fun onClickOnPhoto(url: String?) {
-        viewModel.onClickPhoto(url, this)
+    override fun onClickOnPhotoPosition(position: Int) {
+        viewModel.onClickPhotoPosition(position, this)
     }
 }

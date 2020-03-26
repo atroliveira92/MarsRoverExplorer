@@ -6,4 +6,7 @@
     <string name="no_internet_connection_message">Make sure you have active data connection</string>
     <string name="earth">earth:</string>
     <string name="sol">sol:</string>
+    <string name="back">back</string>
+    <string name="download_photo">download photo</string>
+    <string name="share">share</string>
 </resources>

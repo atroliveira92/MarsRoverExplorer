@@ -24,13 +24,13 @@ class CameraPhotoAdapter(val photos: List<Photo>, val listener: OnCameraPhotoAda
         holder.cameraPhotoBinding.photo = photos[position]
 
         holder.cameraPhotoBinding.imgvPhoto.setOnClickListener {
-            listener.onClickOnPhoto(photos[position].img_src)
+            listener.onClickOnPhotoPosition(position)
         }
     }
 
     inner class CameraPhotoViewHolder(val cameraPhotoBinding: CameraPhotoRowBinding): RecyclerView.ViewHolder(cameraPhotoBinding.root)
 
     interface OnCameraPhotoAdapter {
-        fun onClickOnPhoto(url: String?)
+        fun onClickOnPhotoPosition(position: Int)
     }
 }

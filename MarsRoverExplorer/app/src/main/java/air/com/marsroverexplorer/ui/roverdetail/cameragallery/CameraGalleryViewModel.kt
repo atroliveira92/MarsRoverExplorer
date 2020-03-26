@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class CameraGalleryViewModel(var marsRoverName: String, var cameraName: String, var earthDate: String, var solDate:String, photos: List<Photo>): ViewModel() {
+class CameraGalleryViewModel(var marsRoverName: String, var cameraName: String, var earthDate: String, var solDate:String, var photos: List<Photo>): ViewModel() {
 
     private val mutableCameraPhotos = MutableLiveData<List<Photo>>()
     val photosLiveData: LiveData<List<Photo>> get() = mutableCameraPhotos
@@ -16,9 +16,9 @@ class CameraGalleryViewModel(var marsRoverName: String, var cameraName: String, 
         mutableCameraPhotos.value = photos
     }
 
-    fun onClickPhoto(url: String?, context: Context) {
-        if (!url.isNullOrEmpty()) {
-            PhotoActivity.startActivity(context, url)
+    fun onClickPhotoPosition(position: Int, context: Context) {
+        if (position >= 0 && position < photos.size) {
+            PhotoActivity.startActivity(context, position, photos as ArrayList<Photo>)
         }
     }
 }

@@ -38,7 +38,7 @@ class PhotoAdapter(var cameraPhotoViewModel: CameraPhotoViewModel, var listener:
             holder.frlMorePhotos.visibility = View.GONE
 
             holder.itemView.setOnClickListener(View.OnClickListener {
-                listener.onClickOnPhoto(url)
+                listener.onClickOnPhoto(position, cameraPhotoViewModel)
             })
         }
 
@@ -51,7 +51,7 @@ class PhotoAdapter(var cameraPhotoViewModel: CameraPhotoViewModel, var listener:
     }
 
     interface OnClickPhoto {
-        fun onClickOnPhoto(url: String)
+        fun onClickOnPhoto(position: Int, cameraPhotoViewModel: CameraPhotoViewModel)
         fun onClickMorePhotos(cameraPhotoViewModel: CameraPhotoViewModel)
     }
 }

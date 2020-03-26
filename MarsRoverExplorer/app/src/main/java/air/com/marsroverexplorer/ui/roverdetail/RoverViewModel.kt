@@ -84,8 +84,9 @@ class RoverViewModel(private val repository: RoverRepository) : ViewModel(){
         }
     }
 
-    fun onClickPhoto(url: String, context: Context) {
-        PhotoActivity.startActivity(context, url)
+    fun onClickPhoto(position: Int, cameraPhotoViewModel: CameraPhotoViewModel, context: Context) {
+        val photos = this.map?.get(cameraPhotoViewModel.cameraName)
+        PhotoActivity.startActivity(context, position, photos as ArrayList<Photo>)
     }
 
     fun onClickOnMorePhotos(cameraPhotoViewModel: CameraPhotoViewModel, context: Context) {
@@ -96,7 +97,7 @@ class RoverViewModel(private val repository: RoverRepository) : ViewModel(){
         }
 
         if (photos != null) {
-            CameraGalleryActivity.startActivity(context, roverName, cameraPhotoViewModel.cameraName, earthDate!!, solDate!!, photos as ArrayList<Photo>);
+            CameraGalleryActivity.startActivity(context, roverName, cameraPhotoViewModel.cameraName, earthDate!!, solDate!!, photos as ArrayList<Photo>)
         }
     }
 }
