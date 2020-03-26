@@ -12,18 +12,21 @@
             android:background="@color/colorPrimary">
 
         <ImageView
+                android:onClick="@{viewModel::onClickBack}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" app:srcCompat="@drawable/ic_close_black_24dp"
                 android:id="@+id/imageView" app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="16dp" app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="16dp"/>
         <ImageView
+                android:onClick="@{viewModel::onClickDownload}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" app:srcCompat="@drawable/ic_share_black_24dp"
                 android:id="@+id/imageView2" android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="16dp"/>
         <ImageView
+                android:onClick="@{viewModel::onClickShare}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" app:srcCompat="@drawable/ic_file_download_black_24dp"
                 android:id="@+id/imageView3"
@@ -32,7 +35,8 @@
         <ImageView
                 app:loadPhoto="@{viewModel.url}"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" app:srcCompat="@android:color/darker_gray"
+                android:layout_height="match_parent"
+                app:srcCompat="@android:color/darker_gray"
                 android:id="@+id/imageView4"
                 app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="4dp" android:layout_marginEnd="4dp"

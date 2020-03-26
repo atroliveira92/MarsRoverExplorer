@@ -1,19 +1,20 @@
 package air.com.marsroverexplorer.ui.roverdetail.photo
 
+import air.com.marsroverexplorer.ui.listener.OnMVVMBackPressed
 import android.view.View
 import androidx.lifecycle.ViewModel
 
-class PhotoViewModel(var url: String): ViewModel() {
+class PhotoViewModel(var url: String, var onBackListener: OnMVVMBackPressed): ViewModel() {
 
-    fun onClickShare(view: View) {
-
+    fun onClickBack(view: View) {
+        onBackListener.onBack()
     }
 
     fun onClickDownload(view: View) {
 
     }
 
-    fun onClickBack(view: View) {
+    fun onClickShare(view: View) {
 
     }
 }
