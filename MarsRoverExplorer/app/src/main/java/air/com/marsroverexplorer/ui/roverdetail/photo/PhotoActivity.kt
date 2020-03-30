@@ -4,9 +4,11 @@ import air.com.marsroverexplorer.R
 import air.com.marsroverexplorer.databinding.PhotoViewBinding
 import air.com.marsroverexplorer.model.photo.Photo
 import air.com.marsroverexplorer.ui.listener.OnMVVMBackPressed
+import air.com.marsroverexplorer.ui.roverdetail.photo.PhotoViewModel.*
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -14,7 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.photo_view.*
 
-class PhotoActivity: AppCompatActivity(), OnMVVMBackPressed {
+class PhotoActivity: AppCompatActivity(), OnMVVMBackPressed, OnSharePhoto {
 
     companion object {
         private const val PHOTO_LIST_ARG = "photo_list_arg"
@@ -36,7 +38,7 @@ class PhotoActivity: AppCompatActivity(), OnMVVMBackPressed {
         val position = intent.getIntExtra(PHOTO_POSITION_ARG, 0)
         val photos = intent.getParcelableArrayListExtra<Photo>(PHOTO_LIST_ARG)
 
-        val factory = PhotoViewModelFactory(position, photos!!, this)
+        val factory = PhotoViewModelFactory(position, photos!!, this, this)
         val viewModel = ViewModelProviders.of(this, factory).get(PhotoViewModel::class.java)
 
         binding.viewModel = viewModel
@@ -46,9 +48,26 @@ class PhotoActivity: AppCompatActivity(), OnMVVMBackPressed {
             viewPagerPhotos.setCurrentItem(viewModel.position, true)
         })
 
+        viewPagerPhotos.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+
+            override fun onPageScrollStateChanged(state: Int) {}
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
+            }
+            override fun onPageSelected(position: Int) {
+                viewModel.position = position
+            }
+
+        })
+
     }
 
     override fun onBack() {
         onBackPressed()
+    }
+
+    override fun onErrorSharePhoto(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 }

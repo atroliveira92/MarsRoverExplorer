@@ -9,4 +9,5 @@
     <string name="back">back</string>
     <string name="download_photo">download photo</string>
     <string name="share">share</string>
+    <string name="problem_to_share_photo">An problem happened when tried to share photo. Please try again</string>
 </resources>
