@@ -35,7 +35,7 @@
                 android:id="@+id/imageView3"
                 app:layout_constraintEnd_toStartOf="@+id/imageView2" android:layout_marginEnd="16dp"
                 app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="16dp"/>
-        <androidx.viewpager.widget.ViewPager
+        <air.com.marsroverexplorer.util.HackyViewPager
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
