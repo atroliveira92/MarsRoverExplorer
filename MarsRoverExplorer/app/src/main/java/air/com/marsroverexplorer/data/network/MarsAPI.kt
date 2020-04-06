@@ -20,7 +20,10 @@ interface MarsAPI {
 
 
     @GET("rovers/{rover}/photos?api_key=pkzzx9DLUejnkWlxoydv4aexzJhUFbMFHylBuy7p")
-    suspend fun listPhotosFromRover(@Path("rover") rover : String, @Query("earth_date") earthDate: String) : Response<Photos>
+    suspend fun listPhotosFromRoverByEarthDate(@Path("rover") rover : String, @Query("earth_date") earthDate: String) : Response<Photos>
+
+    @GET("rovers/{rover}/photos?api_key=pkzzx9DLUejnkWlxoydv4aexzJhUFbMFHylBuy7p")
+    suspend fun listPhotosFromRoverBySolDate(@Path("rover") rover : String, @Query("sol") sol: String) : Response<Photos>
 
     @GET("manifests/{rover}?&api_key=pkzzx9DLUejnkWlxoydv4aexzJhUFbMFHylBuy7p")
     suspend fun getRoverManifest(@Path("rover") rover : String) : Response<PhotoManifestResponse>

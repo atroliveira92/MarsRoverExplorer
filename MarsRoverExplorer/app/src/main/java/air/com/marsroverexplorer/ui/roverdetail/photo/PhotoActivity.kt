@@ -4,7 +4,8 @@ import air.com.marsroverexplorer.R
 import air.com.marsroverexplorer.databinding.PhotoViewBinding
 import air.com.marsroverexplorer.model.photo.Photo
 import air.com.marsroverexplorer.ui.listener.OnMVVMBackPressed
-import air.com.marsroverexplorer.ui.roverdetail.photo.PhotoViewModel.*
+import air.com.marsroverexplorer.ui.roverdetail.photo.PhotoViewModel.OPhotoViewModelDelegate
+import air.com.marsroverexplorer.util.PermissionUtil
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -16,7 +17,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.photo_view.*
 
-class PhotoActivity: AppCompatActivity(), OnMVVMBackPressed, OnSharePhoto {
+
+class PhotoActivity: AppCompatActivity(), OnMVVMBackPressed, OPhotoViewModelDelegate {
+
+    private lateinit var viewModel: PhotoViewModel
+    private val permissionUtil = PermissionUtil()
 
     companion object {
         private const val PHOTO_LIST_ARG = "photo_list_arg"
@@ -39,7 +44,7 @@ class PhotoActivity: AppCompatActivity(), OnMVVMBackPressed, OnSharePhoto {
         val photos = intent.getParcelableArrayListExtra<Photo>(PHOTO_LIST_ARG)
 
         val factory = PhotoViewModelFactory(position, photos!!, this, this)
-        val viewModel = ViewModelProviders.of(this, factory).get(PhotoViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, factory).get(PhotoViewModel::class.java)
 
         binding.viewModel = viewModel
 
@@ -67,7 +72,27 @@ class PhotoActivity: AppCompatActivity(), OnMVVMBackPressed, OnSharePhoto {
         onBackPressed()
     }
 
-    override fun onErrorSharePhoto(message: String) {
+    override fun onShowErrorMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
+    override fun hasPermission(permission: String): Boolean {
+        return permissionUtil.checkPermission(this, arrayOf(permission))
+    }
+
+    override fun onRequestPermission(permission: String, message: String) {
+        permissionUtil.requestWriteDataPermission(this, message)
+    }
+
+    override fun onDownloadFinished(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (permissionUtil.checkPermission(this, permissions)) {
+             viewModel.download(this)
+        }
     }
 }
