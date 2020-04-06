@@ -33,7 +33,11 @@ class RoverViewModel(private val repository: RoverRepository) : ViewModel(){
         this.photoManifest = photoManifest
         this.solDate = photoManifest.maxSol.toString()
 
-        loadPhotoByEarthDate(photoManifest.photos[2].earthDate!!)
+        if (photoManifest.photos[2].earthDate != null) {
+            loadPhotoByEarthDate(photoManifest.photos[2].earthDate!!)
+        } else {
+            loadPhotoBySolDate(photoManifest.photos[2].sol.toString())
+        }
         //loadPhotoByEarthDate(photoManifest.maxDate!!)
     }
 
@@ -46,7 +50,28 @@ class RoverViewModel(private val repository: RoverRepository) : ViewModel(){
 
         Coroutines.main {
             try {
-                val response = repository.loadRoverPhotos(photoManifest?.name!!, earthDate)
+                val response = repository.loadRoverPhotosByEarthDate(photoManifest?.name!!, earthDate)
+                buildCameraPhotosList(response.photos)
+                this.solDate = response.photos[0].sol
+
+            } catch (e: ApiException) {
+                e.printStackTrace()
+                listener?.onError(e.message!!)
+            } catch (e: NoInternetException) {
+                e.printStackTrace()
+                listener?.onError(e.message!!)
+            }
+        }
+    }
+
+    private fun loadPhotoBySolDate(solDate: String) {
+        this.solDate = solDate
+
+        Coroutines.main {
+            try {
+                val response = repository.loadRoverPhotosBySolDate(photoManifest?.name!!, solDate)
+                this.earthDate = response.photos[0].earth_date
+
                 buildCameraPhotosList(response.photos)
 
             } catch (e: ApiException) {
