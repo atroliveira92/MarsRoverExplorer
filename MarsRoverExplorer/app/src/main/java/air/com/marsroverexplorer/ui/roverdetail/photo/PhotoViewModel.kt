@@ -13,7 +13,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -45,7 +44,7 @@ class PhotoViewModel(var position: Int, var photos: List<Photo>, var onBackListe
         if (listener.hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             download(view.context)
         } else {
-            listener.onRequestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, "Permission need to download Photo into gallery")
+            listener.onRequestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, view.context.getString(R.string.permission_to_download_photo))
         }
     }
 
@@ -86,9 +85,9 @@ class PhotoViewModel(var position: Int, var photos: List<Photo>, var onBackListe
                         }
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
                         fos?.close()
-                        listener.onDownloadFinished("Download Finished")
+                        listener.onDownloadFinished(context.getString(R.string.download_finished))
                     } catch (e: IOException) {
-                        listener.onShowErrorMessage("Problem happened when tried to download. Please, try again")
+                        listener.onShowErrorMessage(context.getString(R.string.problem_happened_when_download_media))
                     }
                 }
             }
