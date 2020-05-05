@@ -5,4 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="photo_background">#686565</color>
     <color name="button_text_color">#FFFFFF</color>
+    <color name="earth_selected">#2196F3</color>
+    <color name="red">#d32f2f</color>
+    <color name="dark_red">#b71c1c</color>
 </resources>

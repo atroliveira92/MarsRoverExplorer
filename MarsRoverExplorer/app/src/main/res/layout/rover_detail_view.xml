@@ -35,14 +35,14 @@
                 android:layout_marginStart="20dp"
                 android:id="@+id/linearLayout"
                 android:clickable="true"
-                android:focusable="true"
-                android:onClick="@{viewmodel::openDateFilterClick}">
+                android:focusable="true">
 
 
             <ImageView
                     android:layout_gravity="center_vertical"
                     android:contentDescription="@null"
                     android:layout_marginStart="4dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_date_range_black_24dp"/>
@@ -60,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
-                    android:text="@={viewmodel.earthDate}"
+                    android:text="@{viewmodel.earthDate}"
                     tools:text="2020-10-29"/>
             <TextView
                     android:layout_gravity="center_vertical"
@@ -83,13 +83,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
-                    android:text="@={viewmodel.solDate}"
+                    android:text="@{viewmodel.solDate}"
                     tools:text="1092"/>
 
             <Button android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/round_button_shape"
-                    android:text="Change"
+                    android:text="@string/change"
+                    android:onClick="@{viewmodel::openDateFilterClick}"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="8dp"
                     android:textAllCaps="false"
@@ -114,6 +115,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" app:layout_constraintGuide_begin="139dp"
                 android:id="@+id/guideline"/>
+        <ProgressBar
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/pgLoadPhotos"
+                app:layout_constraintStart_toEndOf="@+id/rvRoverGallery"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintEnd_toStartOf="@+id/rvRoverGallery"
+                app:layout_constraintTop_toBottomOf="@+id/rvRoverGallery"
+                app:layout_constraintBottom_toTopOf="parent" android:visibility="gone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

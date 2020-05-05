@@ -19,40 +19,53 @@ import java.lang.Math.min
 class RoverViewModel(private val repository: RoverRepository) : ViewModel(){
 
     var photoManifest: PhotoManifest? = null
-    var earthDate: String? = null
-    var solDate: String? = null
 
-    var listener : RoverDetailListener? = null
+    var earthDate = MutableLiveData<String>()
+    var solDate = MutableLiveData<String>()
+
+    var listener: RoverDetailListener? = null
 
     var map: Map<String, List<Photo>>? = null
 
     private val mutableCameraPhotos = MutableLiveData<List<CameraPhotoViewModel>>()
     val listCameraPhotos : LiveData<List<CameraPhotoViewModel>> get() = mutableCameraPhotos
 
-    fun onInit(photoManifest: PhotoManifest) {
+    fun init(photoManifest: PhotoManifest) {
         this.photoManifest = photoManifest
-        this.solDate = photoManifest.maxSol.toString()
+        this.solDate.value = photoManifest.maxSol.toString()
 
-        if (photoManifest.photos[2].earthDate != null) {
-            loadPhotoByEarthDate(photoManifest.photos[2].earthDate!!)
+        if (photoManifest.maxDate != null) {
+            loadPhotoByEarthDate(photoManifest.maxDate!!)
         } else {
-            loadPhotoBySolDate(photoManifest.photos[2].sol.toString())
+            loadPhotoBySolDate(photoManifest.maxSol.toString())
         }
-        //loadPhotoByEarthDate(photoManifest.maxDate!!)
     }
 
     fun openDateFilterClick(view: View) {
+        listener?.openDatePicker(earthDate.value!!)
+    }
 
+    fun onEarthDateSelected(earthDate: String) {
+        loadPhotoByEarthDate(earthDate)
+    }
+
+    fun onSolDateSelected(solDate: String) {
+        loadPhotoBySolDate(solDate)
     }
 
     private fun loadPhotoByEarthDate(earthDate: String) {
-        this.earthDate = earthDate
+        this.earthDate.value = earthDate
+        listener?.onShowLoading()
+
+        mutableCameraPhotos.value = mutableListOf()
 
         Coroutines.main {
             try {
                 val response = repository.loadRoverPhotosByEarthDate(photoManifest?.name!!, earthDate)
                 buildCameraPhotosList(response.photos)
-                this.solDate = response.photos[0].sol
+                if (response.photos.size > 0) {
+                    this.solDate.value = response.photos[0].sol
+                }
 
             } catch (e: ApiException) {
                 e.printStackTrace()
@@ -60,17 +73,24 @@ class RoverViewModel(private val repository: RoverRepository) : ViewModel(){
             } catch (e: NoInternetException) {
                 e.printStackTrace()
                 listener?.onError(e.message!!)
+            } finally {
+                listener?.onDismissLoading()
             }
         }
     }
 
     private fun loadPhotoBySolDate(solDate: String) {
-        this.solDate = solDate
+        this.solDate.value = solDate
+
+        listener?.onShowLoading()
+        mutableCameraPhotos.value = mutableListOf()
 
         Coroutines.main {
             try {
                 val response = repository.loadRoverPhotosBySolDate(photoManifest?.name!!, solDate)
-                this.earthDate = response.photos[0].earth_date
+                if (response.photos.size > 0) {
+                    this.earthDate.value = response.photos[0].earth_date
+                }
 
                 buildCameraPhotosList(response.photos)
 
@@ -80,6 +100,8 @@ class RoverViewModel(private val repository: RoverRepository) : ViewModel(){
             } catch (e: NoInternetException) {
                 e.printStackTrace()
                 listener?.onError(e.message!!)
+            } finally {
+                listener?.onDismissLoading()
             }
         }
     }
@@ -122,7 +144,7 @@ class RoverViewModel(private val repository: RoverRepository) : ViewModel(){
         }
 
         if (photos != null) {
-            CameraGalleryActivity.startActivity(context, roverName, cameraPhotoViewModel.cameraName, earthDate!!, solDate!!, photos as ArrayList<Photo>)
+            CameraGalleryActivity.startActivity(context, roverName, cameraPhotoViewModel.cameraName, earthDate.value!!, solDate.value!!, photos as ArrayList<Photo>)
         }
     }
 }

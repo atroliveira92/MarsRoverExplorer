@@ -14,4 +14,11 @@
     <string name="problem_happened_when_download_media">Problem happened when tried to download. Please, try again
     </string>
     <string name="permission_to_download_photo">Permission need to download Photo into gallery</string>
+    <string name="sol_explanation_message">The term Sol is used by planetary astronomers to refer to the duration of a
+        solar day on Mars. A mean Martian solar day is 24 hour, 39 minutes and 35.244 seconds.
+    </string>
+    <string name="earth_date">Earth Date</string>
+    <string name="sol_date">Sol Date</string>
+    <string name="sol_">Sol:</string>
+    <string name="change">Change</string>
 </resources>
