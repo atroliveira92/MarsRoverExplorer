@@ -23,9 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        </activity>
         <activity android:name=".ui.roverdetail.RoverDetailActivity"/>
         <activity android:name=".ui.roverdetail.cameragallery.CameraGalleryActivity"/>
         <activity android:name=".ui.roverdetail.photo.PhotoActivity"/>
+        <activity android:name=".ui.CalendarActivity"/>
     </application>
 
 </manifest>

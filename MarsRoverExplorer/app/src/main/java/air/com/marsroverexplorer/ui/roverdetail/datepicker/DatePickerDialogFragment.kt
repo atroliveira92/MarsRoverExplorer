@@ -7,13 +7,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
+import androidx.core.view.marginEnd
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.date_picker_view.*
-import java.util.*
 
 class DatePickerDialogFragment: DialogFragment(), OnDatePickerViewModelDelegate {
 
@@ -56,13 +55,14 @@ class DatePickerDialogFragment: DialogFragment(), OnDatePickerViewModelDelegate 
 
         viewModel.dateLiveData.observe(viewLifecycleOwner, Observer{
             it.let {
-                datePicker1.init(it.get(Calendar.YEAR), it.get(Calendar.MONTH),
-                    it.get(Calendar.DAY_OF_MONTH)) { _: DatePicker, year: Int, month: Int, day: Int ->
-
-                    viewModel.changeDate(year, month, day)
-                }
+//                datePicker1.init(it.get(Calendar.YEAR), it.get(Calendar.MONTH),
+//                    it.get(Calendar.DAY_OF_MONTH)) { _: DatePicker, year: Int, month: Int, day: Int ->
+//
+//                    viewModel.changeDate(year, month, day)
+//                }
             }
         })
+
 
         return binding.root
     }

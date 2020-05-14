@@ -57,7 +57,11 @@ dependencies {
     implementation "org.kodein.di:kodein-di-generic-jvm:6.2.1"
     implementation "org.kodein.di:kodein-di-framework-android-x:6.2.1"
 
+    //Zoom Photo
     implementation 'com.github.chrisbanes:PhotoView:2.1.4'
+
+    //Calendar
+    implementation 'com.github.applikeysolutions:cosmocalendar:1.0.4'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
