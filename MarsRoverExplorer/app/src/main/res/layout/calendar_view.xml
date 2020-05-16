@@ -20,28 +20,10 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:clipToPadding="false"
+            android:layout_marginBottom="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
-    <LinearLayout
-            android:layout_marginTop="22dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/mTextViewYear"
-                tools:text="Year: 2014"
-                android:layout_marginEnd="8dp"/>
 
-        <TextView
-                tools:text="Month: 1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/mTextViewMonth"/>
-
-    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mRecyclerViewWeek"
             android:layout_width="match_parent"

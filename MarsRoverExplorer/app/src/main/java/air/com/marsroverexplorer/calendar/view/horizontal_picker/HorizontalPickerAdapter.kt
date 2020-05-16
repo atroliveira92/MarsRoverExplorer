@@ -25,6 +25,16 @@ class HorizontalPickerAdapter(var horizontalPicker: List<HorizontalPicker> = arr
         return horizontalPicker[position].getValue()
     }
 
+    fun getPosition(value: Int): Int {
+        for(i in horizontalPicker.indices) {
+            if (horizontalPicker[i].getValue() == value) {
+                return i
+            }
+        }
+
+        return 0
+    }
+
     inner class HorizontalPickerViewHolder(itemView: View, width: Int) : ViewHolder(itemView) {
         init {
             val layoutParam = itemView.mFrameLayoutMonth.layoutParams

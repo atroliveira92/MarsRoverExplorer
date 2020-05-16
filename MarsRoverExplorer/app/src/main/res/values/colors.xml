@@ -8,4 +8,6 @@
     <color name="earth_selected">#2196F3</color>
     <color name="red">#d32f2f</color>
     <color name="dark_red">#b71c1c</color>
+    <color name="disabled_date">#7C7C7C</color>
+    <color name="enbaled_date">#FFFFFF</color>
 </resources>
