@@ -9,6 +9,7 @@ import air.com.marsroverexplorer.calendar.view.daypicker.OnDayPickerListener
 import air.com.marsroverexplorer.calendar.view.daypicker.WeeksAdapter
 import air.com.marsroverexplorer.calendar.view.horizontal_picker.HorizontalPickerAdapter
 import air.com.marsroverexplorer.util.attachSnapHelperWithListener
+import air.com.marsroverexplorer.util.scrollToLinearSnapPosition
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
@@ -107,7 +108,7 @@ class CalendarFragment: Fragment(), OnDayPickerListener {
                 }
             })
 
-        scrollToPosition(mRecyclerViewMonth, monthAdapter.getPosition(selectedMonth), snapHelperMonth)
+        mRecyclerViewMonth.scrollToLinearSnapPosition(monthAdapter.getPosition(selectedMonth), snapHelperMonth)
     }
 
     private fun setupYear(cardWidth: Int, startYear: Int, endYear: Int) {
@@ -126,24 +127,7 @@ class CalendarFragment: Fragment(), OnDayPickerListener {
                 daysAdapter.update(array)
             }
         })
-
-        scrollToPosition(mRecyclerViewYear, yearAdapter.getPosition(selectedYear), snapHelperYear)
-    }
-
-    private fun scrollToPosition(recyclerView: RecyclerView, selectedPosition: Int, snapHelper: LinearSnapHelper) {
-        if (selectedPosition == 0)
-            return
-
-        recyclerView.scrollToPosition(selectedPosition)
-        recyclerView.post {
-            val view = recyclerView.layoutManager?.findViewByPosition(selectedPosition)
-            view.let {
-                val snapDistance = snapHelper.calculateDistanceToFinalSnap(recyclerView.layoutManager!!, view!!)
-                if (snapDistance?.get(0) ?: 0 != 0 || snapDistance?.get(1) ?: 0 != 0) {
-                    recyclerView.scrollBy(snapDistance!![0], snapDistance[1])
-                }
-            }
-        }
+        mRecyclerViewYear.scrollToLinearSnapPosition(yearAdapter.getPosition(selectedYear), snapHelperYear)
     }
 
     private fun setupDay(screenWidth: Int) {
